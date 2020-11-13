@@ -8,6 +8,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:id="@+id/llUserList"
+        android:layout_margin="10dp"
        >
         <ImageView
             android:layout_width="50dp"
@@ -21,7 +22,14 @@
             android:layout_marginEnd="10dp"
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
-    <org.lucasr.twowayview.widget.TwoWayView
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/llUserList"
+        android:id="@+id/rvUserImageData"
+        android:nestedScrollingEnabled="false"
+        />
+  <!--  <org.lucasr.twowayview.widget.TwoWayView
         android:id="@+id/gallery"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,6 +37,6 @@
         android:scrollbars="vertical"
         android:layout_below="@id/llUserList"
         app:twowayview_layoutManager="SpannableGridLayoutManager"
-        app:twowayview_numColumns="2"/>
+        app:twowayview_numColumns="2"/>-->
 
 </RelativeLayout>

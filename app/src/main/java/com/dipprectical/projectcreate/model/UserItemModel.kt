@@ -10,5 +10,5 @@ data class UserItemModel(
     val name: String? = null,
 
     @field:SerializedName("items")
-    val items: ArrayList<String>? = null
+    val items: ArrayList<String>? = ArrayList()
 )

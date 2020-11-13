@@ -6,10 +6,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.MainActivity">
+    <ProgressBar
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/pbCenterVertical"
+        android:layout_centerInParent="true"/>
 
-    <androidx.recyclerview.widget.RecyclerView
+     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:layout_above="@id/rlBottom"
+         android:id="@+id/Swipe">
+         <androidx.core.widget.NestedScrollView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:id="@+id/scrollView">
+             <RelativeLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent">
+                 <androidx.recyclerview.widget.RecyclerView
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     android:nestedScrollingEnabled="false"
+                     android:id="@+id/rvUserData"/>
+             </RelativeLayout>
+         </androidx.core.widget.NestedScrollView>
+
+     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/rvUserData"/>
+        android:layout_height="70dp"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/rlBottom">
+        <ProgressBar
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+
 
 </RelativeLayout>
