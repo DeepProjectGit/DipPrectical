@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.util.Log
 import android.view.View
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.view.ViewTreeObserver.OnScrollChangedListener
 import android.widget.Toast
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -53,7 +54,7 @@ class MainActivity:BaseActivity() {
 
         Swipe.setOnRefreshListener(object : SwipeRefreshLayout.OnRefreshListener {
             override fun onRefresh() {
-                CurrentPage=1
+                CurrentPage = 1
                 Swipe.setRefreshing(false);
                 Swipe.canChildScrollUp()
                 scrollView.pageScroll(0)
@@ -74,9 +75,9 @@ class MainActivity:BaseActivity() {
             val view = scrollView.getChildAt(scrollView.getChildCount() - 1) as View
             val diff: Int = view.bottom - (scrollView.getHeight() + scrollView
                 .getScrollY())
-            if (diff == 0&&isLast) {
-                rlBottom.visibility=View.VISIBLE
-                CurrentPage=CurrentPage+1
+            if (diff == 0 && isLast) {
+                rlBottom.visibility = View.VISIBLE
+                CurrentPage = CurrentPage + 1
                 callApi(true)
             }
         })
@@ -94,8 +95,8 @@ class MainActivity:BaseActivity() {
             ) {
                 Log.e("inRespons", "getData")
                 if (response.isSuccessful) {
-                    rlBottom.visibility=View.GONE
-                    isLast=response.body()!!.data!!.hasMore!!
+                    rlBottom.visibility = View.GONE
+                    isLast = response.body()!!.data!!.hasMore!!
                     pbCenterVertical.visibility = View.GONE
                     userList.addAll(response.body()!!.data!!.users!!)
                     userItemAdaptor!!.notifyDataSetChanged()
@@ -123,6 +124,7 @@ class MainActivity:BaseActivity() {
                 Glide.with(this@MainActivity).load(userList[position].image).into(holder.itemView.ivUser)
                 Log.e("inData", userList[position].items!!.size.toString())
                 setImagesAdaptor(userList[position].items!!, holder.itemView.rvUserImageData)
+
 
               /*  holder.itemView.gallery.adapter=GalleryAdapter(userList[position].items!!)
                 holder.itemView.gallery.orientation=TwoWayLayoutManager.Orientation.VERTICAL
@@ -166,21 +168,40 @@ class MainActivity:BaseActivity() {
                 itemModel: String,
                 position: Int
             ) {
+
                 Glide.with(this@MainActivity)
                     .load(userList[position])
                     .into(holder!!.itemView.imageview_gallery_item)
+
+
             }
 
             override fun setItemLayout(): Int = R.layout.item_images
         }
 
         rvUserImageData.adapter=userImageItemAdaptor
-        rvUserImageData.layoutManager=GridLayoutManager(
-            this@MainActivity,
-            2,
-            GridLayoutManager.VERTICAL,
-            false
-        )
+        if(userList.size%2==0){
+            val layoutManager = GridLayoutManager(this, 2 ,GridLayoutManager.VERTICAL,
+                false)
+            rvUserImageData.layoutManager=layoutManager
+        }else{
+            val layoutManager = GridLayoutManager(this, 2 ,GridLayoutManager.VERTICAL,
+                false)
+            layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int {
+                   if(position==0){
+                       return 2
+                   }else{
+                       return 1
+                   }
+
+                }
+            }
+            rvUserImageData.layoutManager=layoutManager
+        }
+
+
+
         rvUserImageData.itemAnimator=DefaultItemAnimator()
     }
 
@@ -199,11 +220,11 @@ class MainActivity:BaseActivity() {
 
         override fun onBindViewHolder(holder: GalleryViewHolder, position: Int) {
             loadImage(holder.ivImage, titlesArray[position])
-          *//*  val layoutParams:SpannedGridLayoutManager.LayoutParams = holder.itemView.getLayoutParams() as SpannableGridLayoutManager.LayoutParams
+            val layoutParams:SpannedGridLayoutManager.LayoutParams = holder.itemView.getLayoutParams() as SpannableGridLayoutManager.LayoutParams
             var colSpan = 1
-            var rowSpan = 1*//*
+            var rowSpan = 1
 
-            *//*if(titlesArray.size%2==0){
+            if(titlesArray.size%2==0){
                 colSpan=2
                 rowSpan=2
             }else{
@@ -220,11 +241,11 @@ class MainActivity:BaseActivity() {
                         holder.itemView.layoutParams = SpannedGridLayoutManager.
                     }
                 }
-            }*//*
+            }
 
-            *//*layoutParams.colSpan = colSpan
+            layoutParams.colSpan = colSpan
             layoutParams.rowSpan = rowSpan
-            holder.itemView.setLayoutParams(layoutParams)*//*
+            holder.itemView.setLayoutParams(layoutParams)
 
 
         }
