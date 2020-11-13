@@ -93,12 +93,14 @@ class MainActivity:BaseActivity() {
 
     private inner class GalleryAdapter constructor(val titlesArray: ArrayList<String>) : RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GalleryViewHolder {
+            Log.e("Crate","in")
             val view: View = LayoutInflater.from(this@MainActivity).inflate(R.layout.item_images, parent, false)
             return GalleryViewHolder(view)
         }
 
         override fun onBindViewHolder(holder: GalleryViewHolder, position: Int) {
-            val layoutParams =
+            loadImage(holder.ivImage,titlesArray[position])
+            val layoutParams:SpannableGridLayoutManager.LayoutParams =
                 holder.itemView.getLayoutParams() as SpannableGridLayoutManager.LayoutParams
             var colSpan = 1
             var rowSpan = 1
@@ -125,8 +127,7 @@ class MainActivity:BaseActivity() {
             layoutParams.rowSpan = rowSpan
             holder.itemView.setLayoutParams(layoutParams)
 
-            val ivImage=holder.itemView.findViewById<ImageView>(R.id.imageview_gallery_item)
-            loadImage(ivImage,titlesArray[position])
+
         }
 
         private fun loadImage(destination: ImageView,strUrl:String) {
@@ -139,7 +140,9 @@ class MainActivity:BaseActivity() {
             return titlesArray.size
         }
 
-        inner class GalleryViewHolder(view: View) : RecyclerView.ViewHolder(view)
+        inner class GalleryViewHolder(view: View) : RecyclerView.ViewHolder(view){
+            val ivImage=view.findViewById<ImageView>(R.id.imageview_gallery_item)
+        }
     }
 
 

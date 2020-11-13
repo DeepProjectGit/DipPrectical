@@ -29,6 +29,6 @@
         android:scrollbars="vertical"
         android:layout_below="@id/llUserList"
         app:twowayview_layoutManager="SpannableGridLayoutManager"
-        app:twowayview_numColumns="6"/>
+        app:twowayview_numColumns="2"/>
 
 </RelativeLayout>
